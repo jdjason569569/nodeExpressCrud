@@ -4,7 +4,7 @@ const StorageSchema = new mongoose.Schema({
         type: String
     },
     filename: {
-        type: Number
+        type: String
     }
 }, {
     timestamps: true,

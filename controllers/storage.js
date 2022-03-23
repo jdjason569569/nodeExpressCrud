@@ -1,4 +1,5 @@
 const { StorageModel } = require('../models');
+const PUBLIC_URL = process.env.PUBLIC_URL;
 
 
 /**
@@ -16,10 +17,13 @@ const getItem = (req, res) => {};
 
 const createItem = async(req, res) => {
     const { file } = req;
-    console.log(file);
-
-    //const data = await StorageModel.create(body);
-    res.send(file);
+    //console.log(file);
+    const fileData = {
+        filename: file.filename,
+        url: `${PUBLIC_URL}/${file.filename}`
+    }
+    const data = await StorageModel.create(fileData);
+    res.send(data);
 };
 
 
