@@ -1,5 +1,6 @@
 const { StorageModel } = require('../models');
 const PUBLIC_URL = process.env.PUBLIC_URL;
+const { handleHttpError } = require('../utils/handleError');
 
 
 /**
@@ -8,22 +9,32 @@ const PUBLIC_URL = process.env.PUBLIC_URL;
  * @param {*} res 
  */
 const getItems = async(req, res) => {
-    const data = await StorageModel.find({});
-    res.send({ data });
+    try {
+        const data = await StorageModel.find({});
+        res.send({ data });
+    } catch (error) {
+        handleHttpError(res, 'error_get_items');
+    }
+
 };
 
 const getItem = (req, res) => {};
 
 
 const createItem = async(req, res) => {
-    const { file } = req;
-    //console.log(file);
-    const fileData = {
-        filename: file.filename,
-        url: `${PUBLIC_URL}/${file.filename}`
+    try {
+        const { file } = req;
+        //console.log(file);
+        const fileData = {
+            filename: file.filename,
+            url: `${PUBLIC_URL}/${file.filename}`
+        }
+        const data = await StorageModel.create(fileData);
+        res.send(data);
+    } catch (error) {
+        handleHttpError(res, 'error_create_items');
     }
-    const data = await StorageModel.create(fileData);
-    res.send(data);
+
 };
 
 
