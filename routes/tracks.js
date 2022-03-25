@@ -2,11 +2,13 @@ const express = require('express');
 const { getItems, createItems, getItem, updateItems, deleteItems } = require('../controllers/tracks');
 const router = express.Router();
 const { validatorCreateItem } = require('../validators/tracks');
+const authMiddleware = require('../middleware/session');
+const checkRol = require('../middleware/rol');
 
 /**
  * Listar items
  */
-router.get('/', getItems);
+router.get('/', authMiddleware, checkRol(['admin']), getItems);
 /**
  * Obterner detalle item
  */
